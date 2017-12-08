@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {//2017-12-7: copied from DashGuy.PlayerController
 
@@ -8,18 +9,21 @@ public class PlayerController : MonoBehaviour
     [Range(1, 10)]
     public float walkSpeed = 1.0f;
     public float moveThreshold = 0.1f;//how close to the target pos Knight will stop moving
-    public float weaponRange = 0.2f;//how close enemies have to be for Knight to hit them
+    public float weaponRange = 1;//how close enemies have to be for Knight to hit them
     public int weaponDamage = 100;//how much damage the weapon does
+    public float weaponAttackRate = 60;//how many times per minute you can attack
     [Range(1, 10)]
     public int dashFrames = 2;//how many frames it takes to complete the dash
     public Vector2 spawnPoint = Vector2.zero;//where the player respawns when he dies
 
     //Processing Variables
     private Vector2 targetPos;//the position that Knight wants to move to
-    private GameObject targetObj;//the object that was tapped; Knight will interact with it when he gets to it
+    public GameObject targetObj;//the object that was tapped; Knight will interact with it when he gets to it
     private bool collidedWithTarget = false;
     private float halfWidth = 0;//half of Merky's sprite width
     private int removeVelocityFrames = 0;
+    private float lastWeaponAttackTime;
+    private float weaponAttackDelay;//the delay between each attack (sec)
 
     //Components
     private CameraController mainCamCtr;//the camera controller for the main camera
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
         mainCamCtr = Camera.main.GetComponent<CameraController>();
         halfWidth = GetComponent<SpriteRenderer>().bounds.extents.magnitude;
         targetPos = transform.position;
+        weaponAttackDelay = 60 / weaponAttackRate;
     }
 
     void FixedUpdate()
@@ -52,9 +57,13 @@ public class PlayerController : MonoBehaviour
             HealthPool hp = targetObj.GetComponent<HealthPool>();
             if (hp)
             {
-                hp.addHealthPoints(-weaponDamage);
-                targetObj = null;
-                collidedWithTarget = false;
+                if (Time.time > lastWeaponAttackTime + weaponAttackDelay)
+                {
+                    lastWeaponAttackTime = Time.time;
+                    hp.addHealthPoints(-weaponDamage);
+                    targetObj = null;
+                    collidedWithTarget = false;
+                }
             }
         }
         if (removeVelocityFrames >= 0)
