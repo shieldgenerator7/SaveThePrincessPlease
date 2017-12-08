@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     //Processing Variables
     private Vector2 targetPos;//the position that Knight wants to move to
     private GameObject targetObj;//the object that was tapped; Knight will interact with it when he gets to it
+    private bool collidedWithTarget = false;
     private float halfWidth = 0;//half of Merky's sprite width
     private int removeVelocityFrames = 0;
 
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
         pc2d = GetComponent<PolygonCollider2D>();
         mainCamCtr = Camera.main.GetComponent<CameraController>();
         halfWidth = GetComponent<SpriteRenderer>().bounds.extents.magnitude;
+        targetPos = transform.position;
     }
 
     void FixedUpdate()
@@ -44,12 +46,15 @@ public class PlayerController : MonoBehaviour
         {
             rb2d.velocity = Vector2.zero;
         }
-        if (targetObj != null && Utility.withinRange(targetObj, gameObject, weaponRange))
+        if (targetObj != null && (collidedWithTarget || Utility.withinRange(gameObject, targetObj, weaponRange)))
         {
+            targetPos = transform.position;
             HealthPool hp = targetObj.GetComponent<HealthPool>();
             if (hp)
             {
                 hp.addHealthPoints(-weaponDamage);
+                targetObj = null;
+                collidedWithTarget = false;
             }
         }
         if (removeVelocityFrames >= 0)
@@ -63,6 +68,14 @@ public class PlayerController : MonoBehaviour
         if (!isMoving())
         {
             mainCamCtr.discardMovementDelay();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject == targetObj)
+        {
+            collidedWithTarget = true;
         }
     }
 
