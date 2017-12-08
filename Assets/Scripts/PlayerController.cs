@@ -5,10 +5,12 @@ public class PlayerController : MonoBehaviour
 {//2017-12-7: copied from DashGuy.PlayerController
 
     [Header("Settings")]
-    [Range(1,10)]
+    [Range(1, 10)]
     public float walkSpeed = 1.0f;
     public float moveThreshold = 0.1f;//how close to the target pos Knight will stop moving
-    [Range(1,10)]
+    public float weaponRange = 0.2f;//how close enemies have to be for Knight to hit them
+    public int weaponDamage = 100;//how much damage the weapon does
+    [Range(1, 10)]
     public int dashFrames = 2;//how many frames it takes to complete the dash
     public Vector2 spawnPoint = Vector2.zero;//where the player respawns when he dies
 
@@ -17,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private GameObject targetObj;//the object that was tapped; Knight will interact with it when he gets to it
     private float halfWidth = 0;//half of Merky's sprite width
     private int removeVelocityFrames = 0;
-    
+
     //Components
     private CameraController mainCamCtr;//the camera controller for the main camera
     private Rigidbody2D rb2d;
@@ -34,13 +36,21 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if ((targetPos - (Vector2)transform.position).sqrMagnitude > moveThreshold * moveThreshold)
+        if (!Utility.withinRange(targetPos, transform.position, moveThreshold))
         {
             rb2d.velocity = (targetPos - (Vector2)transform.position).normalized * walkSpeed;
         }
         else
         {
             rb2d.velocity = Vector2.zero;
+        }
+        if (targetObj != null && Utility.withinRange(targetObj, gameObject, weaponRange))
+        {
+            HealthPool hp = targetObj.GetComponent<HealthPool>();
+            if (hp)
+            {
+                hp.addHealthPoints(-weaponDamage);
+            }
         }
         if (removeVelocityFrames >= 0)
         {
@@ -65,7 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         return rb2d.velocity.magnitude >= 0.1f;
     }
-    
+
     private bool teleport(Vector3 targetPos)//targetPos is in world coordinations (NOT UI coordinates)
     {
         //Get new position
@@ -85,10 +95,10 @@ public class PlayerController : MonoBehaviour
             distance = rch2ds[1].distance;
             newPos = oldPos + direction.normalized * distance;
         }
-        float dashSpeed = distance / (Time.deltaTime*dashFrames);
+        float dashSpeed = distance / (Time.deltaTime * dashFrames);
         rb2d.velocity = direction.normalized * walkSpeed;
         removeVelocityFrames = dashFrames;
-        
+
         //Momentum Dampening
         if (rb2d.velocity.magnitude > 0.001f)//if Merky is moving
         {
@@ -116,7 +126,7 @@ public class PlayerController : MonoBehaviour
         mainCamCtr.delayMovement(0.3f);
         return true;
     }
-    
+
     /// <summary>
     /// Sets the spawn point to the given position
     /// </summary>
@@ -132,7 +142,7 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = spawnPoint;
     }
-    
+
     /// <summary>
     /// Returns true if the given Vector3 is on Merky's sprite
     /// </summary>
@@ -149,9 +159,10 @@ public class PlayerController : MonoBehaviour
         Vector3 newPos = gpos;
         teleport(newPos);
     }
-    public void processTapGesture(GameObject checkPoint)
+    public void processTapGesture(GameObject targetObj)
     {
-        throw new System.NotImplementedException("This method needs implemented.");
+        processTapGesture(targetObj.transform.position);
+        this.targetObj = targetObj;
     }
 
 
@@ -164,4 +175,4 @@ public class PlayerController : MonoBehaviour
     }
 }
 
-   
+

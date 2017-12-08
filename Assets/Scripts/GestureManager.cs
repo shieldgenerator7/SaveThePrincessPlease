@@ -241,7 +241,15 @@ public class GestureManager : MonoBehaviour
                 {
                     tapCount++;
                     adjustHoldThreshold(holdTime, false);
-                    currentGP.processTapGesture(curMPWorld);
+                    RaycastHit2D rch2d = Physics2D.Raycast(curMPWorld, Vector2.zero, 0.1f);
+                    if (rch2d)
+                    {
+                        currentGP.processTapGesture(rch2d.collider.gameObject);
+                    }
+                    else
+                    {
+                        currentGP.processTapGesture(curMPWorld);
+                    }
                 }
 
                 //Set all flags = false
