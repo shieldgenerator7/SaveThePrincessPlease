@@ -500,11 +500,6 @@ Prefab:
       propertyPath: initialTarget
       value: 
       objectReference: {fileID: 316939955}
-    - target: {fileID: 114350390053260144, guid: 52a3b62ed912a9e49a8ae7d1fc61fc69,
-        type: 2}
-      propertyPath: weaponAttackRate
-      value: 30
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52a3b62ed912a9e49a8ae7d1fc61fc69, type: 2}
   m_IsPrefabParent: 0
@@ -2764,6 +2759,76 @@ Transform:
   m_PrefabParentObject: {fileID: 4264604569912518, guid: 468015f55458b0649859321d8146d297,
     type: 2}
   m_PrefabInternal: {fileID: 1416171289}
+--- !u!1 &1423255957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1423255960}
+  - component: {fileID: 1423255959}
+  - component: {fileID: 1423255958}
+  m_Layer: 2
+  m_Name: Skeleton Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1423255958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1423255957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522660aeb84e48642bad8aec8ee51de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 1844907657525136, guid: 52a3b62ed912a9e49a8ae7d1fc61fc69,
+    type: 2}
+  spawnRate: 20
+  defaultTarget: {fileID: 316939955}
+--- !u!61 &1423255959
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1423255957}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.2544036, y: -0.4941311}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.49119282, y: 3.9843578}
+  m_EdgeRadius: 0
+--- !u!4 &1423255960
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1423255957}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1428787104
 Prefab:
   m_ObjectHideFlags: 0
