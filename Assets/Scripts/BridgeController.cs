@@ -20,6 +20,10 @@ public class BridgeController : MonoBehaviour {
         hp.onDeath += destroyBridge;
         sr = support.GetComponent<SpriteRenderer>();
         baseScaleX = sr.size.x;
+        foreach (Transform t in transform)
+        {
+            t.gameObject.AddComponent<DisplayUpdater>();
+        }
 	}
 	
     void takeDamage()
