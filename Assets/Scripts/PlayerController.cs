@@ -43,14 +43,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!Utility.withinRange(targetPos, transform.position, moveThreshold))
-        {
-            rb2d.velocity = (targetPos - (Vector2)transform.position).normalized * walkSpeed;
-        }
-        else
-        {
-            rb2d.velocity = Vector2.zero;
-        }
+        //Target Object
         if (targetObj != null && (collidedWithTarget || Utility.withinRange(gameObject, targetObj, weaponRange)))
         {
             targetPos = transform.position;
@@ -66,6 +59,16 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        //Target Position
+        if (!Utility.withinRange(targetPos, transform.position, moveThreshold))
+        {
+            rb2d.velocity = (targetPos - (Vector2)transform.position).normalized * walkSpeed;
+        }
+        else
+        {
+            rb2d.velocity = Vector2.zero;
+        }
+        //Removed Velocity Frames
         if (removeVelocityFrames >= 0)
         {
             removeVelocityFrames--;
@@ -74,6 +77,7 @@ public class PlayerController : MonoBehaviour
                 rb2d.velocity = Vector2.zero;
             }
         }
+        //Camera Movement Delay
         if (!isMoving())
         {
             mainCamCtr.discardMovementDelay();
