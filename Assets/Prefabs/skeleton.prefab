@@ -22,9 +22,11 @@ GameObject:
   - component: {fileID: 212807880366049058}
   - component: {fileID: 50282509896493254}
   - component: {fileID: 61817389740520372}
+  - component: {fileID: 61239714644404672}
   - component: {fileID: 114722241754263980}
-  - component: {fileID: 114913208687337674}
   - component: {fileID: 114350390053260144}
+  - component: {fileID: 114913208687337674}
+  - component: {fileID: 114120277311903334}
   m_Layer: 0
   m_Name: skeleton
   m_TagString: Untagged
@@ -65,7 +67,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &61817389740520372
+--- !u!61 &61239714644404672
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -77,10 +79,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.011505127, y: -0.10354638}
+  m_Offset: {x: -0.032102585, y: 0.13973856}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.5, y: 1}
     newSize: {x: 0.5, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -88,8 +90,45 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2929077, y: 0.79290724}
+  m_Size: {x: 0.25031376, y: 0.27947712}
   m_EdgeRadius: 0
+--- !u!61 &61817389740520372
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1844907657525136}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0088329315, y: 0.39294767}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.5, y: 1}
+    newSize: {x: 0.5, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.45501423, y: 0.786417}
+  m_EdgeRadius: 0
+--- !u!114 &114120277311903334
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1844907657525136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4890d86381ad9664b8c7e0b1bd2f1335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DEBUG: 0
 --- !u!114 &114350390053260144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +163,7 @@ MonoBehaviour:
   destroyOnDeath: 1
   fadeWithHP: 1
   immortal: 0
+  healthPoints: 0
 --- !u!114 &114913208687337674
 MonoBehaviour:
   m_ObjectHideFlags: 1
