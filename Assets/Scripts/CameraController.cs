@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
 {//2017-12-7: copied from DashGuy.CameraController
 
     public GameObject player;
+    public BoxCollider2D playArea;//the area that the camera has to stay inside of
 
     private Vector3 offset;
     private Quaternion rotation;//the rotation the camera should be rotated towards
@@ -18,6 +19,7 @@ public class CameraController : MonoBehaviour
 
     private int prevScreenWidth;
     private int prevScreenHeight;
+    private Vector2 worldScreenExtents;//half the size of the camera in world coordinates
     
     // Use this for initialization
     void Start()
@@ -29,6 +31,8 @@ public class CameraController : MonoBehaviour
         plyrController = player.GetComponent<PlayerController>();
         scale = cam.orthographicSize;
         rotation = transform.rotation;
+        //Play Area
+        worldScreenExtents = cam.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height))/2;
     }
 
     void Update()
@@ -52,9 +56,22 @@ public class CameraController : MonoBehaviour
                 wasDelayed = false;
                 recenter();
             }
+            //Desired Position (Keeping camera in play area bounds)
+            Vector3 desiredPos = player.transform.position + offset;
+            float desiredX = Mathf.Min(
+                Mathf.Max(desiredPos.x, playArea.bounds.min.x + worldScreenExtents.x),
+                playArea.bounds.max.x - worldScreenExtents.x);
+            
+            float desiredY = Mathf.Min(
+                Mathf.Max(desiredPos.y, playArea.bounds.min.y + worldScreenExtents.y),
+                playArea.bounds.max.y - worldScreenExtents.y);
+            desiredPos = new Vector3(desiredX, desiredY, desiredPos.z);
+            Debug.Log("before: " + (player.transform.position + offset) + ", after: " + desiredPos);
+            Debug.Log("playarea bounds: " + playArea.bounds.min + playArea.bounds.max);
+            //Move the Camera
             transform.position = Vector3.MoveTowards(
                 transform.position,
-                player.transform.position + offset,
+                desiredPos,
                 (Vector3.Distance(
                     transform.position,
                     player.transform.position) * 1.5f + playerRB2D.velocity.magnitude)
