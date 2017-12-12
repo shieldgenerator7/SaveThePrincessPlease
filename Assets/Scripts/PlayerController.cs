@@ -29,12 +29,14 @@ public class PlayerController : MonoBehaviour
     private CameraController mainCamCtr;//the camera controller for the main camera
     private Rigidbody2D rb2d;
     private PolygonCollider2D pc2d;
+    private Animator animator;
 
     // Use this for initialization
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         pc2d = GetComponent<PolygonCollider2D>();
+        animator = GetComponent<Animator>();
         mainCamCtr = Camera.main.GetComponent<CameraController>();
         halfWidth = GetComponent<SpriteRenderer>().bounds.extents.magnitude;
         targetPos = transform.position;
@@ -52,9 +54,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (Time.time > lastWeaponAttackTime + weaponAttackDelay)
                 {
+                    animator.SetBool("isAttacking", true);
                     lastWeaponAttackTime = Time.time;
-                    hp.addHealthPoints(-weaponDamage);
-                    targetObj = null;
                     collidedWithTarget = false;
                 }
             }
@@ -89,6 +90,20 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject == targetObj)
         {
             collidedWithTarget = true;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject == targetObj) {
+            if (animator.GetBool("isAttacking"))
+            {
+                HealthPool hp = targetObj.GetComponent<HealthPool>();
+                if (hp)
+                {
+                    hp.addHealthPoints(-weaponDamage);
+                }
+                targetObj = null;
+            }
         }
     }
 
@@ -178,6 +193,14 @@ public class PlayerController : MonoBehaviour
     }
     public void dropHoldGesture()
     {
+    }
+
+    //
+    // Animation Methods
+    //
+    void stopAttacking()
+    {
+        animator.SetBool("isAttacking", false);
     }
 }
 
