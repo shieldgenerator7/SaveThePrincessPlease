@@ -17,6 +17,11 @@ public class EnemySpawner : MonoBehaviour {
 	void Start () {
         spawnArea = GetComponent<BoxCollider2D>();
         spawnDelay = 60 / spawnRate;
+        HealthPool targetHP = defaultTarget.GetComponent<HealthPool>();
+        if (targetHP)
+        {
+            targetHP.onDeath += stopSpawning;
+        }
 	}
 	
 	// Update is called once per frame
@@ -31,4 +36,9 @@ public class EnemySpawner : MonoBehaviour {
             enemy.GetComponent<SkeletonAI>().initialTarget = defaultTarget;
         }
 	}
+
+    void stopSpawning()
+    {
+        Destroy(this);
+    }
 }
