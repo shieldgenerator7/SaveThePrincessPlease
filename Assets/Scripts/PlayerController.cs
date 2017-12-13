@@ -111,6 +111,18 @@ public class PlayerController : MonoBehaviour
                 }
                 targetObj = null;
             }
+            else
+            {
+                collidedWithTarget = true;
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D coll)
+    {
+        if (coll.gameObject == targetObj)
+        {
+            collidedWithTarget = true;
         }
     }
 
@@ -184,9 +196,9 @@ public class PlayerController : MonoBehaviour
         Vector3 newPos = gpos;
         teleport(newPos);
     }
-    public void processTapGesture(GameObject targetObj)
+    public void processTapGesture(Vector3 gpos, GameObject targetObj)
     {
-        processTapGesture(targetObj.transform.position);
+        processTapGesture(gpos);
         if (targetObj != gameObject)//don't target yourself
         {
             this.targetObj = targetObj;

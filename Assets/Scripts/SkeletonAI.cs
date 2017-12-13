@@ -12,14 +12,14 @@ public class SkeletonAI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         controller = GetComponent<PlayerController>();
-        controller.processTapGesture(initialTarget);
+        controller.processTapGesture(initialTarget.transform.position, initialTarget);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (controller.targetObj == null)
         {
-            controller.processTapGesture(initialTarget);
+            controller.processTapGesture(initialTarget.transform.position, initialTarget);
         }
 	}
 
@@ -29,13 +29,13 @@ public class SkeletonAI : MonoBehaviour {
         HealthPool hp = collision.gameObject.GetComponent<HealthPool>();
         if (hp)
         {
-            controller.processTapGesture(collision.gameObject);
+            controller.processTapGesture(collision.contacts[0].point, collision.gameObject);
             hp.onDeath += refocus;
         }
     }
 
     void refocus()
     {
-        controller.processTapGesture(initialTarget);
+        controller.processTapGesture(initialTarget.transform.position, initialTarget);
     }
 }

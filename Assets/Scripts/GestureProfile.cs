@@ -17,9 +17,9 @@ public class GestureProfile
         //cam = Camera.main;
         //cmaController = cam.GetComponent<CameraController>();
     }
-    public virtual void processTapGesture(GameObject go)
+    public virtual void processTapGesture(Vector3 curMPWorld, GameObject go)
     {
-        plrController.processTapGesture(go);
+        plrController.processTapGesture(curMPWorld, go);
     }
     public virtual void processTapGesture(Vector3 curMPWorld)
     {
