@@ -3726,6 +3726,16 @@ Prefab:
       propertyPath: m_SortingLayer
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 212649777389090518, guid: 44b89617f925f304aa16bdbbedddf5e9,
+        type: 2}
+      propertyPath: m_SortingLayerID
+      value: -1712333747
+      objectReference: {fileID: 0}
+    - target: {fileID: 212649777389090518, guid: 44b89617f925f304aa16bdbbedddf5e9,
+        type: 2}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 61571596903217208, guid: 44b89617f925f304aa16bdbbedddf5e9, type: 2}
     - {fileID: 61068134598313692, guid: 44b89617f925f304aa16bdbbedddf5e9, type: 2}

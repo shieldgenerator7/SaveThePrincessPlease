@@ -69,6 +69,12 @@ public class PlayerController : MonoBehaviour
         {
             rb2d.velocity = Vector2.zero;
         }
+        //Sprite Flipping
+        Vector3 scale = transform.localScale;
+        scale.x = (targetPos.x < transform.position.x
+            || (targetObj != null && targetObj.transform.position.x < transform.position.x))
+            ? -1 : 1;
+        transform.localScale = scale;
         //Removed Velocity Frames
         if (removeVelocityFrames >= 0)
         {
@@ -94,7 +100,8 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject == targetObj) {
+        if (coll.gameObject == targetObj)
+        {
             if (animator.GetBool("isAttacking"))
             {
                 HealthPool hp = targetObj.GetComponent<HealthPool>();
@@ -139,7 +146,7 @@ public class PlayerController : MonoBehaviour
         float dashSpeed = distance / (Time.deltaTime * dashFrames);
         rb2d.velocity = direction.normalized * walkSpeed;
         removeVelocityFrames = dashFrames;
-        
+
         //Gravity Immunity
         mainCamCtr.delayMovement(0.3f);
         return true;
@@ -201,6 +208,7 @@ public class PlayerController : MonoBehaviour
     void stopAttacking()
     {
         animator.SetBool("isAttacking", false);
+        targetObj = null;
     }
 }
 
