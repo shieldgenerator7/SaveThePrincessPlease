@@ -26,7 +26,7 @@ public class SkeletonAI : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         controller.targetObj = null;
-        HealthPool hp = collision.gameObject.GetComponent<HealthPool>();
+        HealthPool hp = collision.gameObject.GetComponentInParent<HealthPool>();
         if (hp)
         {
             controller.processTapGesture(collision.contacts[0].point, collision.gameObject);

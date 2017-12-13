@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour {
 	void Start () {
         spawnArea = GetComponent<BoxCollider2D>();
         spawnDelay = 60 / spawnRate;
-        HealthPool targetHP = defaultTarget.GetComponent<HealthPool>();
+        HealthPool targetHP = defaultTarget.GetComponentInParent<HealthPool>();
         if (targetHP)
         {
             targetHP.onDeath += stopSpawning;

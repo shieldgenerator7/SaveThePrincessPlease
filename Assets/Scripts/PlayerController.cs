@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
             if (collidedWithTarget || Utility.withinRange(gameObject, targetObj, weaponRange))
             {
                 targetPos = transform.position;
-                HealthPool hp = targetObj.GetComponent<HealthPool>();
+                HealthPool hp = targetObj.GetComponentInParent<HealthPool>();
                 if (hp)
                 {
                     if (Time.time > lastWeaponAttackTime + weaponAttackDelay)
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         {
             if (animator.GetBool("isAttacking"))
             {
-                HealthPool hp = targetObj.GetComponent<HealthPool>();
+                HealthPool hp = targetObj.GetComponentInParent<HealthPool>();
                 if (hp)
                 {
                     hp.addHealthPoints(-weaponDamage);

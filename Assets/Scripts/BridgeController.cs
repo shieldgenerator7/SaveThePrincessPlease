@@ -15,7 +15,7 @@ public class BridgeController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        hp = GetComponent<HealthPool>();
+        hp = GetComponentInParent<HealthPool>();
         hp.onHealthLost += takeDamage;
         hp.onDeath += destroyBridge;
         sr = support.GetComponent<SpriteRenderer>();
