@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     //Processing Variables
     private Vector2 targetPos;//the position that Knight wants to move to
     public GameObject targetObj;//the object that was tapped; Knight will interact with it when he gets to it
+    private bool reachedDestination = true;//whether or not he's reached the target position
     private bool collidedWithTarget = false;
     private float halfWidth = 0;//half of Merky's sprite width
     private int removeVelocityFrames = 0;
@@ -46,35 +47,55 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         //Target Object
-        if (targetObj != null && (collidedWithTarget || Utility.withinRange(gameObject, targetObj, weaponRange)))
+        if (targetObj != null)
         {
-            targetPos = transform.position;
-            HealthPool hp = targetObj.GetComponent<HealthPool>();
-            if (hp)
+            if (collidedWithTarget || Utility.withinRange(gameObject, targetObj, weaponRange))
             {
-                if (Time.time > lastWeaponAttackTime + weaponAttackDelay)
+                targetPos = transform.position;
+                HealthPool hp = targetObj.GetComponent<HealthPool>();
+                if (hp)
                 {
-                    animator.SetBool("isAttacking", true);
-                    lastWeaponAttackTime = Time.time;
-                    collidedWithTarget = false;
+                    if (Time.time > lastWeaponAttackTime + weaponAttackDelay)
+                    {
+                        animator.SetBool("isAttacking", true);
+                        lastWeaponAttackTime = Time.time;
+                        collidedWithTarget = false;
+                    }
+                }
+            }
+            else
+            {
+                //If the target can move,
+                if (targetObj.GetComponent<Rigidbody2D>())
+                {
+                    //chase it.
+                    targetPos = targetObj.transform.position;
                 }
             }
         }
         //Target Position
-        if (!Utility.withinRange(targetPos, transform.position, moveThreshold))
+        if (!reachedDestination)
         {
-            rb2d.velocity = (targetPos - (Vector2)transform.position).normalized * walkSpeed;
+            //Sprite Flipping
+            if (targetPos != null || targetObj != null)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = (targetPos.x < transform.position.x
+                    || (targetObj != null && targetObj.transform.position.x < transform.position.x))
+                    ? -1 : 1;
+                transform.localScale = scale;
+            }
+            //Target Position
+            if (!Utility.withinRange(targetPos, transform.position, moveThreshold))
+            {
+                rb2d.velocity = (targetPos - (Vector2)transform.position).normalized * walkSpeed;
+            }
+            else
+            {
+                rb2d.velocity = Vector2.zero;
+                reachedDestination = true;
+            }
         }
-        else
-        {
-            rb2d.velocity = Vector2.zero;
-        }
-        //Sprite Flipping
-        Vector3 scale = transform.localScale;
-        scale.x = (targetPos.x < transform.position.x
-            || (targetObj != null && targetObj.transform.position.x < transform.position.x))
-            ? -1 : 1;
-        transform.localScale = scale;
         //Removed Velocity Frames
         if (removeVelocityFrames >= 0)
         {
@@ -195,6 +216,7 @@ public class PlayerController : MonoBehaviour
         Vector3 prevPos = transform.position;
         Vector3 newPos = gpos;
         teleport(newPos);
+        reachedDestination = false;
     }
     public void processTapGesture(Vector3 gpos, GameObject targetObj)
     {
@@ -209,6 +231,7 @@ public class PlayerController : MonoBehaviour
     public void processHoldGesture(Vector3 gpos, float holdTime, bool finished)
     {
         targetPos = gpos;
+        reachedDestination = false;
     }
     public void dropHoldGesture()
     {
