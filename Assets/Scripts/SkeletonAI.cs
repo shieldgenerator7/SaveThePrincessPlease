@@ -23,13 +23,21 @@ public class SkeletonAI : MonoBehaviour {
         }
 	}
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D coll)
     {
-        controller.targetObj = null;
-        HealthPool hp = collision.gameObject.GetComponentInParent<HealthPool>();
+        changeTargetTemporarily(coll.gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        changeTargetTemporarily(coll.gameObject);
+    }
+    void changeTargetTemporarily(GameObject go)
+    {
+        HealthPool hp = go.GetComponentInParent<HealthPool>();
         if (hp)
         {
-            controller.processTapGesture(collision.contacts[0].point, collision.gameObject);
+            controller.targetObj = null;
+            controller.processTapGesture(transform.position, go);
             hp.onDeath += refocus;
         }
     }
