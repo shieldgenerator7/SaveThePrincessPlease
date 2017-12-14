@@ -36,6 +36,9 @@ public class SkeletonAI : MonoBehaviour {
 
     void refocus()
     {
-        controller.processTapGesture(initialTarget.transform.position, initialTarget);
+        if (controller)
+        {
+            controller.processTapGesture(initialTarget.transform.position, initialTarget);
+        }
     }
 }
