@@ -13,6 +13,7 @@ public class SkeletonAI : MonoBehaviour {
 	void Start () {
         controller = GetComponent<PlayerController>();
         controller.processTapGesture(initialTarget.transform.position, initialTarget);
+        GetComponent<HealthPool>().onHealthLost += changeTargetTemporarily;
 	}
 	
 	// Update is called once per frame
