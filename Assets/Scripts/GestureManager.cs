@@ -244,7 +244,6 @@ public class GestureManager : MonoBehaviour
                     RaycastHit2D[] rch2ds = Physics2D.RaycastAll(curMPWorld, Vector2.zero, 0.1f);
                     if (rch2ds.Length > 0)
                     {
-                        currentGP.processTapGesture(curMPWorld, rch2d.collider.gameObject);
                         currentGP.processTapGesture(curMPWorld, rch2ds);
                     }
                     else
