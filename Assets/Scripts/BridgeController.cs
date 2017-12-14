@@ -26,7 +26,7 @@ public class BridgeController : MonoBehaviour {
         }
 	}
 	
-    void takeDamage()
+    void takeDamage(GameObject attacker)
     {
         sr.size = new Vector2(baseScaleX * hp.HP / hp.maxHP,1);
     }

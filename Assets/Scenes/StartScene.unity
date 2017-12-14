@@ -580,6 +580,7 @@ GameObject:
   - component: {fileID: 370530743}
   - component: {fileID: 370530739}
   - component: {fileID: 370530737}
+  - component: {fileID: 370530738}
   - component: {fileID: 370530740}
   - component: {fileID: 370530742}
   m_Layer: 0
@@ -666,6 +667,18 @@ MonoBehaviour:
   dashFrames: 2
   spawnPoint: {x: 0, y: 0}
   targetObj: {fileID: 0}
+--- !u!114 &370530738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 370530734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0dc0f0304b1cff4486a4fa12997eea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBackDistance: 1
 --- !u!50 &370530739
 Rigidbody2D:
   serializedVersion: 4

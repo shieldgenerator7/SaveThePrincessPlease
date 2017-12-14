@@ -34,7 +34,7 @@ public class HealthPool : MonoBehaviour
         }
     }
     //
-    public delegate void OnHealthLost();
+    public delegate void OnHealthLost(GameObject attacker);
     public delegate void OnHealthGained();
     public delegate void OnDeath();
     //
@@ -61,13 +61,14 @@ public class HealthPool : MonoBehaviour
     /// Negative values damage
     /// </summary>
     /// <param name="deltaHP"></param>
-    public void addHealthPoints(int deltaHP)
+    /// <param name="agent">The object that is changing the HP value of this object</param>
+    public void addHealthPoints(int deltaHP, GameObject agent)
     {
         if (deltaHP < 0)
         {
             if (onHealthLost != null)
             {
-                onHealthLost();
+                onHealthLost(agent);
             }
         }
         if (deltaHP > 0)
@@ -94,13 +95,11 @@ public class HealthPool : MonoBehaviour
         if (immortal)
         {
             HP = maxHP;
-            float range = 20;
-            float randomX = Random.Range(-range, range);
-            float randomY = Random.Range(-range, range);
-            Vector2 randomPos = new Vector2(randomX, randomY);
-            transform.position += (Vector3)randomPos;
             return;
         }
-        Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

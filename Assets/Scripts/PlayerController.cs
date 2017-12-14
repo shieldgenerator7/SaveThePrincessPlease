@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
                 HealthPool hp = targetObj.GetComponentInParent<HealthPool>();
                 if (hp)
                 {
-                    hp.addHealthPoints(-weaponDamage);
+                    hp.addHealthPoints(-weaponDamage, gameObject);
                 }
                 targetObj = null;
             }
@@ -155,6 +155,14 @@ public class PlayerController : MonoBehaviour
     bool isMoving()
     {
         return rb2d.velocity.magnitude >= 0.1f;
+    }
+    /// <summary>
+    /// Resets all movement commands so he stands still of his own accord
+    /// </summary>
+    public void cancelMovement()
+    {
+        reachedDestination = true;
+        targetObj = null;
     }
 
     private bool teleport(Vector3 targetPos)//targetPos is in world coordinations (NOT UI coordinates)
