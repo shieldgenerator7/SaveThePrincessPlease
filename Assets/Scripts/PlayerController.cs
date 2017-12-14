@@ -235,14 +235,8 @@ public class PlayerController : MonoBehaviour
             GameObject go = rch2d.collider.gameObject;
             if (go != gameObject)//don't target yourself
             {
-                //If there is no target already,
-                if (bestTarget == null)
-                {
-                    //this one will do.
-                    bestTarget = go;
-                }
                 //Find the target with the lowest amount of HP
-                HealthPool hp = go.GetComponent<HealthPool>();
+                HealthPool hp = go.GetComponentInParent<HealthPool>();
                 if (hp)
                 {
                     if (hp.HP < leastHealth)
