@@ -226,6 +226,36 @@ public class PlayerController : MonoBehaviour
             this.targetObj = targetObj;
         }
     }
+    public void processTapGesture(Vector3 gpos, RaycastHit2D[] rch2ds)
+    {
+        GameObject bestTarget = null;
+        int leastHealth = int.MaxValue;
+        foreach(RaycastHit2D rch2d in rch2ds)
+        {
+            GameObject go = rch2d.collider.gameObject;
+            if (go != gameObject)//don't target yourself
+            {
+                //If there is no target already,
+                if (bestTarget == null)
+                {
+                    //this one will do.
+                    bestTarget = go;
+                }
+                //Find the target with the lowest amount of HP
+                HealthPool hp = go.GetComponent<HealthPool>();
+                if (hp)
+                {
+                    if (hp.HP < leastHealth)
+                    {
+                        leastHealth = hp.HP;
+                        bestTarget = go;
+                    }
+                }
+            }
+        }
+        //Process the tap with the best target
+        processTapGesture(gpos, bestTarget);
+    }
 
 
     public void processHoldGesture(Vector3 gpos, float holdTime, bool finished)

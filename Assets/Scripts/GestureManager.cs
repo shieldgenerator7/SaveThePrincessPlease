@@ -44,7 +44,7 @@ public class GestureManager : MonoBehaviour
     public const float holdTimeScale = 0.5f;
     public const float holdTimeScaleRecip = 1 / holdTimeScale;
     public float holdThresholdScale = 1.0f;//the amount to multiply the holdThreshold by
-    
+
     // Use this for initialization
     void Start()
     {
@@ -201,7 +201,7 @@ public class GestureManager : MonoBehaviour
                         cameraDragInProgress = true;
                     }
                 }
-                if (holdTime > holdThreshold*holdThresholdScale)
+                if (holdTime > holdThreshold * holdThresholdScale)
                 {
                     if (!isDrag)
                     {
@@ -241,10 +241,11 @@ public class GestureManager : MonoBehaviour
                 {
                     tapCount++;
                     adjustHoldThreshold(holdTime, false);
-                    RaycastHit2D rch2d = Physics2D.Raycast(curMPWorld, Vector2.zero, 0.1f);
-                    if (rch2d)
+                    RaycastHit2D[] rch2ds = Physics2D.RaycastAll(curMPWorld, Vector2.zero, 0.1f);
+                    if (rch2ds.Length > 0)
                     {
                         currentGP.processTapGesture(curMPWorld, rch2d.collider.gameObject);
+                        currentGP.processTapGesture(curMPWorld, rch2ds);
                     }
                     else
                     {
@@ -265,7 +266,8 @@ public class GestureManager : MonoBehaviour
             }
 
         }
-        else {//touchCount == 0 || touchCount >= 2
+        else
+        {//touchCount == 0 || touchCount >= 2
             if (clickState == ClickState.Began)
             {
             }
@@ -348,7 +350,7 @@ public class GestureManager : MonoBehaviour
         {
             tapCount++;
         }
-        holdThresholdScale = (holdThresholdScale*(tapCount-1) + (holdTime / holdThreshold)) / tapCount;
+        holdThresholdScale = (holdThresholdScale * (tapCount - 1) + (holdTime / holdThreshold)) / tapCount;
         if (holdThresholdScale < 1)
         {
             holdThresholdScale = 1.0f;//keep it from going lower than the default holdThreshold
